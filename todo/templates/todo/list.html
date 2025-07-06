@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        hr {
+            margin: 40px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        li strong {
+            color: #007bff;
+        }
+
+        li span {
+            float: right;
+            font-style: italic;
+            color: #555;
+        }
+
+        .done {
+            border-left-color: #28a745;
+        }
+
+        .pending {
+            border-left-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <h1>ToDo List</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="text" name="description" placeholder="Description">
+        <input type="checkbox" name="completed"><br>
+
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <hr>
+
+    <ul>
+        {% for todo in todos %}
+        <li class="{% if todo.completed %}done{% else %}pending{% endif %}">
+            <strong>{{ todo.title }}</strong> - {{ todo.description }}
+            <span>{% if todo.completed %}Done{% else %}Pending{% endif %}</span>
+            <a href="{% url 'todo-Update' todo.id %}">Edit</a>
+            <a href="{% url 'todo-delete' todo.id %}">Delete</a>
+
+        </li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>
