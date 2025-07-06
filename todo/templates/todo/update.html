@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ToDo Lists</title>
+    <title>ToDo List</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -88,31 +88,22 @@
         }
     </style>
 </head>
+
+
+
+
 <body>
-    <h1>ToDo List</h1>
+    <h1>Update ToDO</h1>
 
     <form method="post">
         {% csrf_token %}
-        <input type="text" name="title" placeholder="Title" required>
-        <input type="text" name="description" placeholder="Description">
-        <input type="checkbox" name="completed"><br>
-
-        <button type="submit">Add Todo</button>
+        <input type="text" name="title" value ="{{todo.title}}" required><br>
+        <input type="text" name="description" value = "{{todo.decription}}"><br>
+        <input type="checkbox" name="completed" {% if todo.completed %}checked{% endif %}><br>
+        
+        <button type="submit">Update</button>
     </form>
 
-    <hr>
-
-    <ul>
-        {% for todo in todos %}
-        <li class="{% if todo.completed %}done{% else %}pending{% endif %}">
-            <strong>{{ todo.title }}</strong> - {{ todo.description }}
-            <span>{% if todo.completed %}Done{% else %}Pending{% endif %}</span>
-            <a href="{% url 'todo-Update' todo.id %}">Edit</a>
-            <a href="{% url 'todo-delete' todo.id %}">Delete</a>
-
-        </li>
-        {% endfor %}
-    </ul>
-    
 </body>
-</html>
+
+<a href="{% url 'todo-html'%}">Back to List</a>
